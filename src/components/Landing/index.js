@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import Search from './../Search/search';
 import Select from './../Select/index';
 import Users from './../Users/index';
@@ -11,6 +11,7 @@ import Alert from './../Alert/index';
 const Index = () => {
 
     const [userProfiles, setUserProfiles] = useState([]);
+    //const [searchResult, setSearchResult] = useState([]);
     const [alert, setAlert] = useState(null);
     const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
@@ -19,17 +20,19 @@ const Index = () => {
     const recordApi = "http://api.enye.tech/v1/challenge/records";
 
 
-    // useEffect(()=>{
-    //     const fetchApi = async () =>{
-    //         const data = await fetch(recordApi);
-    //         const response = await data.json();
-    //         const responseArray = response.records.profiles;
-    //         setUserProfiles(responseArray);
-    //         console.log("response",responseArray)
-    //     } 
-    //     fetchApi()
+    useEffect(()=> {
+        const fetchApi = async () =>{
+            setLoading(true);
+            const data = await fetch(recordApi);
+            const response = await data.json();
+            const responseArray = response.records.profiles;
+            localStorage.setItem('data', JSON.stringify(responseArray));
+            setUserProfiles(responseArray);
+            setLoading(false);
+        } 
+        fetchApi();
 
-    // }, [])
+    }, [])
 
      //Get current posts
      const indexOfLastPost = currentPage * postsPerPage;
@@ -40,20 +43,21 @@ const Index = () => {
    const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
 
-    const searchUsers = async () => {
-        setLoading({ loading: true });
-        const data = await fetch(recordApi);
-        const response = await data.json();
-        const responseArray = response.records.profiles;
-        setUserProfiles(responseArray);
-        // console.log("response",responseArray)
+    const searchUsers = async (text) => {
+        setLoading(true);
+        const searchArr = userProfiles.filter(function(obj) {
+            return obj["FirstName"].toLowerCase() === text.toLowerCase();
+        });
+        setUserProfiles(searchArr);
+        console.log("searchArr", searchArr);
         // setUserProfiles(responseArray);
         setLoading(false);
     };
-
     //clear users from state
-    const clearUsers = () => {
-        setUserProfiles([]);
+    const resetUsers = () => {
+        const respArr = localStorage.getItem('data');
+        const resp = JSON.parse(respArr);
+        setUserProfiles(resp);
         setLoading(false);
     }
 
@@ -73,7 +77,7 @@ const Index = () => {
                     <li> <Alert alert={alert} />
                     <h2><Search 
                     searchUsers={searchUsers}
-                    clearUsers={clearUsers}
+                    resetUsers={resetUsers}
                     showClear={userProfiles.length > 0 ? true : false}
                     setAlert={setMsg}
                     /></h2></li>

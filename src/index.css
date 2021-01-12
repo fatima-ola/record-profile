@@ -100,6 +100,14 @@ p{
   color: #fff;
 }
 
+.btn-danger,
+.bg-danger,
+.badge-danger,
+.alert-danger {
+  background: var(--danger-color);
+  color: #fff;
+}
+
 .my-1 {
   margin: 1rem 0;
 }

@@ -1,59 +1,59 @@
-import React,  { Component }  from 'react'
+import React, {useState} from 'react'
 import PropTypes from 'prop-types';
 
 
-class Search extends Component {
-    state = {
-      text: '',
-    };
-
-    static propTypes = {
+const Search =({searchUsers, resetUsers, showClear, setAlert})=> {
+    const [text, setText] = useState('');
+    
+     Search.propTypes = {
         searchUsers: PropTypes.func.isRequired,
         clearUsers: PropTypes.func.isRequired,
         showClear: PropTypes.bool.isRequired,
         setAlert: PropTypes.func.isRequired,
     };
 
-    onChange = (e) => {
-        this.setState({ [e.target.name]: e.target.value });
-      };
-
-      onSubmit = (e) => {
-        e.preventDefault();
-        if (this.state.text === '') {
-          this.props.setAlert(
-            'You have to type something to search users...',
-            'danger'
-          );
-        } else {
-          this.props.searchUsers(this.state.text);
-          this.setState({ text: '' });
+    const handleChange =(e) =>{
+        const {name, value} = e.currentTarget;
+       if(name === "text"){
+            setText(value);
         }
-      };
+    };
+    console.log("setText",text);
 
-    
-    
-   render(){
+
+   const handleSubmit = (e) => {
+        e.preventDefault();
+        if (text === '') {
+            setAlert(
+              'You have to type something to search users...',
+              'danger'
+            );
+          } else {
+            searchUsers(text);
+            setText('');
+          }
+    }
+
+   
     return (
         <div>
             <div className="searchbox">
-                <form onSubmit={this.onSubmit}>
+                <form onSubmit={handleSubmit}>
                     <label>Search:</label> 
-                    <input  type="text" placeholder="Find a user" id="search1" name="text" value={this.state.text} onChange={this.onChange} className="search browser-default" />
+                    <input  type="text" placeholder="Find a user" id="search1" name="text" value={text} onChange={handleChange} className="search browser-default" />
                     <input type='submit' value='search' className='btn btn-dark btn-block'/>
                 </form>
-                {this.props.showClear && (
+            </div>
+            {showClear && (
                 <button
-                className='btn btn-light btn-block'
-                onClick={this.props.clearUsers}
+                className='btn btn-danger btn-block'
+                onClick={resetUsers}
                 >
-                Clear
+                Click to View All Users
                 </button>
                 )}
-            </div>
         </div>
     )
-   }
 }
 
 export default Search
