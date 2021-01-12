@@ -1,8 +1,12 @@
 import React from 'react';
+import Spinner from './../Spinner/index';
 
 
 const Index = (props) => {
-    const {userProfiles} = props
+    const {userProfiles, loading} = props
+    if (loading) {
+        return <Spinner />;
+      } else {
    
     return (
         <div style={userStyle}>
@@ -39,7 +43,7 @@ const Index = (props) => {
                )              
             })}
         </div>
-    )
+    )}
 }
 
 const userStyle = {

@@ -8,15 +8,15 @@ const Index = (props) => {
         pageNumbers.push(i);
       }
     return (    
-        <ul className="pagination">
+        <div className="pagination">
             {pageNumbers.map((number)=>{
                 return(
-                <li classname="listed-page" key={number}>
+                <p className="listed-page" key={number}>
                 <a href="#!" onClick={() => paginate(number)}>{number}</a>
-                </li>
+                </p>
                 )
             })}
-        </ul>  
+        </div>  
     )
 }
 

@@ -109,10 +109,12 @@ a{
 }
 
 .pagination{
- text-align: center;
- list-style-type: none;
- margin-right: 4rem;
- display: inline;
+  text-align: center;
+  margin: 2rem;
 }
 
-
+.listed-page{
+  display: inline!important;
+  margin:0 2rem;
+  font-size: 1.5rem;
+}
