@@ -15,7 +15,7 @@ const Index = () => {
     const [payment, setPayment] = useState('')
    
 
-    const recordApi = "http://api.enye.tech/v1/challenge/records";
+    const recordApi = "https://api.enye.tech/v1/challenge/records";
 
 
     useEffect(()=> {
