@@ -1,21 +1,19 @@
 import React, {useState, useEffect} from 'react'
 import Search from './../Search/search';
-import Select from './../Select/index';
 import Users from './../Users/index';
 import Pagination from './../Pagination/index';
 import Alert from './../Alert/index';
 
-
-
-
 const Index = () => {
 
     const [userProfiles, setUserProfiles] = useState([]);
-    //const [searchResult, setSearchResult] = useState([]);
     const [alert, setAlert] = useState(null);
     const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [postsPerPage] = useState(20)
+    const [gender, setGender] = useState('')
+    const [payment, setPayment] = useState('')
+   
 
     const recordApi = "http://api.enye.tech/v1/challenge/records";
 
@@ -40,7 +38,7 @@ const Index = () => {
      const currentPosts = userProfiles.slice(indexOfFirstPost, indexOfLastPost);
  
      // Change page
-   const paginate = (pageNumber) => setCurrentPage(pageNumber);
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
 
     const searchUsers = async (text) => {
@@ -49,8 +47,6 @@ const Index = () => {
             return obj["FirstName"].toLowerCase() === text.toLowerCase();
         });
         setUserProfiles(searchArr);
-        console.log("searchArr", searchArr);
-        // setUserProfiles(responseArray);
         setLoading(false);
     };
     //clear users from state
@@ -68,6 +64,46 @@ const Index = () => {
     setTimeout(() => setAlert(null), 5000);
     };
 
+    //Filter by Gender
+
+    const handleGender = (e) => {
+        const {name, value} = e.currentTarget;
+        if(name === 'gender'){
+            setGender(value);
+            console.log("value", typeof(value));
+            console.log("name", name);
+            const searchGender = userProfiles.filter(function(obj) {
+                return obj["Gender"] === value;
+            });
+            setUserProfiles(searchGender);               
+        }
+        else if (name === ''){  
+            console.log('I am empty', typeof(value))   
+            const respArr = localStorage.getItem('data');
+            const resp = JSON.parse(respArr);
+            setUserProfiles(resp);
+           
+        }
+    }
+
+     //Filter by Payment
+
+    const handlePayment = (e) => {
+        const {name, value} = e.currentTarget;
+        if(name === 'payment'){
+            setPayment(value);
+            const searchPayment = userProfiles.filter(function(obj) {
+                return obj["PaymentMethod"] === value;
+            });
+            setUserProfiles(searchPayment); 
+        }else if(name === '' ){
+            const respArr = localStorage.getItem('data');
+            const resp = JSON.parse(respArr);
+            setUserProfiles(resp);
+        }
+    }
+   
+   
    
     return (
         <div className="main" >
@@ -81,7 +117,28 @@ const Index = () => {
                     showClear={userProfiles.length > 0 ? true : false}
                     setAlert={setMsg}
                     /></h2></li>
-                    <li><h2><Select /></h2></li>
+                    <li>
+                        <h2>
+                            <div>
+                                <label>Filter By:</label> 
+                                <select className="browser-default" type="text" name="gender" value={gender} onChange={handleGender}>
+                                    <option value="" diasbled selected>Gender</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                </select>
+                                <select className="browser-default" type="text" name="payment" value={payment} onChange={handlePayment}>
+                                    <option value="" diasbled selected>Payment Option</option>
+                                    <option value="money order">Money Order</option>
+                                    <option value="check">Check</option>
+                                    <option value="paypal">Pay Pal</option>
+                                    <option value="cc">CC</option>
+                                </select>
+                            </div>
+                            {/* <button className='btn btn-danger btn-block'onClick={resetUsers}>
+                            Refresh Filter Here
+                            </button> */}
+                        </h2>
+                    </li>
                 </ul>
             </nav>
             <hr />

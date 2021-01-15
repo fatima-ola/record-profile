@@ -9,7 +9,7 @@ const Index = (props) => {
       } else {
    
     return (
-        <div style={userStyle}>
+        <div className="responsive" style={userStyle}>
             {userProfiles.map((userProfile)=>{
                return(
                    <div className="card" key={userProfile.UserName}>    
@@ -28,6 +28,14 @@ const Index = (props) => {
                        <div className="users">    
                             <h5>Gender:</h5>
                             <p>{userProfile.Gender}</p>  
+                       </div>
+                       <div className="users">
+                            <h5>Payment Method:</h5>
+                            <p> {userProfile.PaymentMethod}</p>
+                       </div>
+                       <div className="users">
+                            <h5>Credit Card Type:</h5>
+                            <p> {userProfile.CreditCardType}</p>
                        </div>
                        <div className="users">
                             <h5>Email Address:</h5>
@@ -51,5 +59,6 @@ const userStyle = {
     gridTemplateColumns: 'repeat(3, 1fr)',
     gridGap: '1rem',
   };
+
 
 export default Index

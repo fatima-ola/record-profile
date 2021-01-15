@@ -9,8 +9,10 @@ const Index = (props) => {
       }
     return (    
         <div className="pagination">
+            <span>Pages:</span>
             {pageNumbers.map((number)=>{
                 return(
+                
                 <p className="listed-page" key={number}>
                 <a href="#!" onClick={() => paginate(number)}>{number}</a>
                 </p>

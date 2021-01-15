@@ -49,7 +49,7 @@ const Search =({searchUsers, resetUsers, showClear, setAlert})=> {
                 className='btn btn-danger btn-block'
                 onClick={resetUsers}
                 >
-                Click to View All Users
+                Refresh Search Here
                 </button>
                 )}
         </div>
