@@ -134,9 +134,6 @@ const Index = () => {
                                     <option value="cc">CC</option>
                                 </select>
                             </div>
-                            {/* <button className='btn btn-danger btn-block'onClick={resetUsers}>
-                            Refresh Filter Here
-                            </button> */}
                         </h2>
                     </li>
                 </ul>
